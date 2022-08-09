@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+      <div class="col-5 mx-auto">
+        <h3 class="bg-primary text-white p-3">
+          List of Nursultan
+        </h3>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" [(ngModel)]="inputText" (keyup.enter) = 'addItem()'>
+            <button [class.disabled]="inputText.length == 0" class="btn btn-outline-primary" (click)="addItem()">Add</button>
+        </div>
+        
+        <div class="form-check mb-3">
+            <input  type="checkbox" [(ngModel)]="displayAll" class="form-check-input" id="displayAll">
+            <label for="displayAll" class="form-check-label">Show All</label>
+        </div>
+        <div class="alert alert-warning" *ngIf="getItem().length == 0 else itemsTable">
+            There is nothing
+        </div>
+        <div class="my-2 bg-primary text-center text-white">
+            All items {{displayCount()}}
+        </div>
+        <ng-template #itemsTable>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of getItem(), let i = index;" [class.bg-primary]="item.action" [class.bg-warning]="!item.action">
+                        <td>{{i+1}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <div [ngSwitch]="item.action">
+                                <div *ngSwitchCase="true">Yes</div>
+                                <div *ngSwitchCase="false">No</div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="checkbox" (change)="onActionChanged(item)" [(ngModel)]="item.action">
+                        </td>
+                    </tr>
+                </tbody> 
+            </table>
+        </ng-template>
+      </div>
+    </div>
+  </div>
